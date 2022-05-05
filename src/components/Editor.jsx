@@ -7,7 +7,6 @@ import { callSql } from "../api"
 function Editor() {
   var keywords = ["SELECT", "FROM", "WHERE", "LIKE", "BETWEEN", "NOT LIKE", "FALSE", "NULL", "FROM", "TRUE", "NOT IN"];
   let [disable, setDisable] = useState(false);
-  const[inputValue,setInputValue] = useState("");
 
   let [storedElements, setstoredElements] = useState([<div className="editorf" key={count} id="editor1" contentEditable="true" onInput={(e) => { handleChange(e) }}>
   </div>]);
@@ -46,7 +45,7 @@ function Editor() {
     let res = await callSql(aData)
     return res.data.output;
   }
-  function setVal() { };
+  
   async function ExecuteButton(e) {
     let res = await useCallSql()
 
@@ -110,7 +109,7 @@ function Editor() {
       </div>
       {/* oh it was your whatsapp.... i thought mine ws pinging */}
       <div className="button" onClick={(e) => { ExecuteButton(e) }}>Execute</div>
-      <div className="button" onClick={(e) => { setInputValue(() => "") }}>Clear Screen</div>
+      <div className="button" onClick={() => { setstoredElements(() => "") }}>Clear Screen</div>
     </div>
   );
 }
