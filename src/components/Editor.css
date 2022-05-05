@@ -1,0 +1,47 @@
+#editor {
+    width: 600px;
+    background-color: #444;
+    color: white;
+    font-size: 14px;
+    font-family: monospace;
+    text-align: left;
+}
+.parentcontainer{
+    width: 600px;
+    min-height: 200px;
+    padding: 10px;
+    background-color: #444;
+    color: white;
+    font-size: 14px;
+    font-family: monospace;
+    height: 200px; border: 2px solid red;
+    margin-left: 30px;
+    margin-bottom: 30px;
+    text-align: left;
+}
+.enter{
+    margin-left: 30px;
+    color: black;
+    font-size: 25px;
+    font-weight: 600;
+}
+.button{
+    width: 90px;
+    height: 20px;
+    border: none;
+    background-color: grey;
+    flex-direction: column;
+    color: black;
+    padding:7px 10px;
+    font-weight: 600;
+    border-radius: 10px;
+    margin-top: 30px;
+    margin-left: 30px;
+    margin-bottom: 40px;
+    cursor: pointer;
+    text-align: center;
+    display: inline;
+}
+.statement {
+    color: orange;
+}
