@@ -1,74 +1,52 @@
 import React from 'react';
 import './Editor.css';
 import { useState } from 'react';
+import {count, countIncr} from "../../incC"
 
 function Editor() {
-  let [storedElements,setstoredElements] = useState("");
-function renderSingleDiv() { // generate single element
-    return (
-      React.createElement(
-      "div",
-      {className: "crud-card"},
-      "NewDiv",
-    )
-  )
-}
-
-function renderCrudDiv(){ // update state with new element
-  this.setState((prev) => {
-     return { 
-         storedElements: [
-             ...prev.storedElements, 
-            this.renderSingleDiv()
-         ]
-       }
-  });
-}
     var keywords = ["SELECT","FROM","WHERE","LIKE","BETWEEN","NOT LIKE","FALSE","NULL","FROM","TRUE","NOT IN"];
-    var [newHTML, setNewHTML] = useState("");
-    var count = 0;
-  function ExecuteButton(){
-    document.getElementById("parenteditor").innerHTML+=`<p>this is an output</p>`
-    count+=1;
-    document.getElementById("parenteditor").innerHTML+=`<p>this is an output</p>`
-  }
-  function setVal(){
-    setVal=" ";
-  }
-  async function handleChange(e){
-    // setOldHTML(e.currentTarget.textContent);
-    console.log(e)
-    if (e.nativeEvent.data===' ' || e.nativeEvent.data===null || e.nativeEvent.data===';'){
-      
-      changeColor(e)
-    }
-    
-  }
-  async function changeColor(e){
-    
-    
-    var tempText="";
-    e.currentTarget.textContent.replace(/[\s]+/g, " ").trim().split(" ").forEach(function(val){
-        if (keywords.indexOf(val.trim().toUpperCase()) > -1)
-          tempText += "<span class='statement'>" + val.trim().toUpperCase() + "&nbsp;</span>";
-        else
-          tempText += "<span class='other'>" + val + "&nbsp;</span>"; 
-      });
-
-      await setNewHTML(tempText)
-      
+    let [disable, setDisable] = useState(false);
   
-      var child = document.getElementById("editor").children;
-      console.log(child[child.length-1])
-      var range = document.createRange();
-      var sel = window.getSelection();
-      range.setStart(child[child.length-1], 1);
-      range.collapse(true);
-      sel.removeAllRanges();
-      sel.addRange(range);
-      document.getElementById("editor").focus();
+    let [storedElements,setstoredElements] = useState([<div className="editorf" key={count} id="editor1" contentEditable="true"  onInput={(e) => { handleChange(e) }}>
+    </div> ]);
+  
+    
+    function ExecuteButton(e){
+      console.log(count)
+      e.preventDefault()
+      document.getElementById(`editor${count}`).contentEditable = "false"
+      countIncr()
+      setstoredElements([...storedElements,<p className="output">this is an output</p>,<div className="editorf" key={count} id={"editor"+count} contentEditable="true"  onInput={(e) => { handleChange(e) }} >
+          </div>]);
+    }
+    async function handleChange(e){
+      if (e.nativeEvent.data===' ' || e.nativeEvent.data===';'){      
+        changeColor(e)
+      }
       
-  }
+    }
+    async function changeColor(e){    
+      var tempText="";
+      e.currentTarget.textContent.replace(/[\s]+/g, " ").trim().split(" ").forEach(function(val){
+          if (keywords.indexOf(val.trim().toUpperCase()) > -1)
+            tempText += "<span class='statement'>" + val.trim().toUpperCase() + "&nbsp;</span>";
+          else
+            tempText += "<span class='other'>" + val + "&nbsp;</span>"; 
+        });
+  
+        document.getElementById(`editor${count}`).innerHTML = tempText;
+        
+        let child = document.getElementById(`editor${count}`).children;
+        console.log(child)
+        var range = document.createRange();
+        var sel = window.getSelection();
+        range.setStart(child[child.length-1], 1);
+        range.collapse(true);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        document.getElementById(`editor${count}`).focus();
+        
+    }
   return (
     <div>
     <div className="enter">Enter statements:</div>
