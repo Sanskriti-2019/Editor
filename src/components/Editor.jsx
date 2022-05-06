@@ -1,12 +1,10 @@
 import React from 'react';
 import './Editor.css';
 import { useState } from 'react';
-import { count, countIncr, initialData, mergeQuery } from "./incC";
+import { count, countIncr, mergeQuery, revertQuery } from "./incC";
 import { callSql } from "../api"
-
 function Editor() {
   var keywords = ["SELECT", "FROM", "WHERE", "LIKE", "BETWEEN", "NOT LIKE", "FALSE", "NULL", "FROM", "TRUE", "NOT IN"];
-  //let initialData = ``
 
   let [storedElements, setstoredElements] = useState([<div className="editorf" key={count} id="editor1" contentEditable="true" onInput={(e) => { handleChange(e) }}>
   </div>]);
@@ -19,7 +17,6 @@ function Editor() {
 
     let codeData = document.getElementById(`editor${count}`).textContent;
     
-    // initialData += (codeData.replace(re, " "))
     let finalData = mergeQuery(codeData);
     console.log(finalData)
 
@@ -52,6 +49,9 @@ function Editor() {
     let child = document.getElementById(`editor${count}`).children;
     console.log(child)
     document.getElementById(`editor${count}`).focus();
+    if (res.includes("Error: near line") || res.includes("SELECT")){
+      revertQuery();
+    }
   }
   async function handleChange(e) {
     if (e.nativeEvent.data === ' ' || e.nativeEvent.data === ';') {
