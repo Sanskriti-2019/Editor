@@ -12,8 +12,6 @@ axios.interceptors.request.use((config) => {
 
 
     config.headers['Content-Type']='application/json';
-    // config.headers['Origin']= 'https://www.tutorialspoint.com'
-    // config.headers['Referer']= 'https://www.tutorialspoint.com/'
     return config;
 },
     (error) => {
