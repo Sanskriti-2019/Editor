@@ -1,35 +1,27 @@
 import React from 'react';
 import './Editor.css';
 import { useState } from 'react';
-import { count, countIncr } from "./incC";
+import { count, countIncr, initialData, mergeQuery } from "./incC";
 import { callSql } from "../api"
 
 function Editor() {
   var keywords = ["SELECT", "FROM", "WHERE", "LIKE", "BETWEEN", "NOT LIKE", "FALSE", "NULL", "FROM", "TRUE", "NOT IN"];
-  let [disable, setDisable] = useState(false);
+  //let initialData = ``
 
   let [storedElements, setstoredElements] = useState([<div className="editorf" key={count} id="editor1" contentEditable="true" onInput={(e) => { handleChange(e) }}>
   </div>]);
+
+  function ClearButton(){
+    window.location.reload(false);
+  }
+  
   async function useCallSql() {
 
     let codeData = document.getElementById(`editor${count}`).textContent;
-    let initialData = `BEGIN TRANSACTION;
-
-    /* Create a table called NAMES */
-    CREATE TABLE NAMES(Id integer PRIMARY KEY, Name text);
     
-    /* Create few records in this table */
-    INSERT INTO NAMES VALUES(1,'Tom');
-    INSERT INTO NAMES VALUES(2,'Lucy');
-    INSERT INTO NAMES VALUES(3,'Frank');
-    INSERT INTO NAMES VALUES(4,'Jane');
-    INSERT INTO NAMES VALUES(5,'Robert');
-    COMMIT;
-    `
-    var re = new RegExp(String.fromCharCode(160), "g");
-    let finalData = initialData+(codeData.replace(re, " "))
+    // initialData += (codeData.replace(re, " "))
+    let finalData = mergeQuery(codeData);
     console.log(finalData)
-    let formData = new FormData();    //formdata object
 
     let aData = {
       
@@ -59,16 +51,6 @@ function Editor() {
 
     let child = document.getElementById(`editor${count}`).children;
     console.log(child)
-    var range = document.createRange();
-    var sel = window.getSelection();
-    // we'll do that in a
-    // range.setStart(child[child.length - 1], 1);
-    // range.collapse(true);
-    // sel.removeAllRanges();
-    // sel.addRange(range);
-
-    // now the front end part is ready....just need to integrate the apis.
-    // youvraj has found
     document.getElementById(`editor${count}`).focus();
   }
   async function handleChange(e) {
@@ -103,13 +85,10 @@ function Editor() {
     <div>
       <div className="enter">Enter statements:</div>
       <div className='parentcontainer' id="parenteditor">
-        {/* <div className="container" id="editor" contentEditable="true"  onInput={(e) => { handleChange(e) }} dangerouslySetInnerHTML={{ __html: newHTML }} > */}
-        {/* </div>  */}
         {storedElements}
       </div>
-      {/* oh it was your whatsapp.... i thought mine ws pinging */}
       <div className="button" onClick={(e) => { ExecuteButton(e) }}>Execute</div>
-      <div className="button" onClick={() => { setstoredElements(() => "") }}>Clear Screen</div>
+      <div className="button" onClick={ClearButton}>Clear Screen</div>
     </div>
   );
 }
