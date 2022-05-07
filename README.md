@@ -2,6 +2,15 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+# PAGE LOAD TIME
+
+37.38ms
+Chrome -> Right Click -> Inspect Element -> Network Tab -> Timeline
+
+# Live Site Problem
+
+There is CORS error that's why execute button is not working in any other device.It is working properly in my device.API that i have used has not access to cross-origin.To run the link,you need to have extensions.
+
 ## Available Scripts
 
 In the project directory, you can run:
